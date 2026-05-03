@@ -1,1 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ResearchRabbit</title>
+    <style>
+      body {
+        width: 380px;
+        margin: 0;
+        padding: 14px;
+        font-family: Arial, sans-serif;
+        color: #1f2937;
+      }
 
+      h1 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+
+      textarea {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 78px;
+        padding: 8px;
+        resize: vertical;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 9px;
+        border: 0;
+        border-radius: 6px;
+        background: #2563eb;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        background: #93c5fd;
+        cursor: not-allowed;
+      }
+
+      #status {
+        margin: 10px 0;
+        min-height: 18px;
+        color: #4b5563;
+      }
+
+      .chunk {
+        margin-top: 12px;
+        padding: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #f9fafb;
+      }
+
+      .chunk-header {
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+
+      .explanation {
+        margin-bottom: 8px;
+        color: #4b5563;
+      }
+
+      .chunk-text {
+        max-height: 180px;
+        overflow: auto;
+        white-space: pre-wrap;
+        line-height: 1.35;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ResearchRabbit</h1>
+    <label for="prompt">Student prompt</label>
+    <textarea id="prompt" placeholder="Example: What dataset did the authors use?"></textarea>
+    <button id="submit">Find Relevant Chunks</button>
+    <div id="status" role="status"></div>
+    <div id="results"></div>
+    <script src="popup.js"></script>
+  </body>
+</html>

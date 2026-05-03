@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "ResearchRabbit MVP",
+  "description": "Find relevant chunks from HTML research webpages.",
+  "version": "0.1.0",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["http://localhost:8000/*"],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}
