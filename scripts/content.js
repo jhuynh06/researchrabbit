@@ -179,8 +179,14 @@ function highlightText(query, options = {}) {
   return count;
 }
 
-// Expose on window so a popup, devtools, or another script can call it.
+// Used by the popup to extract page text for the backend ranking request.
+function getResearchRabbitVisibleText() {
+  return document.body?.innerText || '';
+}
+
+// Expose on window so the popup or other scripts can call these directly.
 if (typeof window !== 'undefined') {
   window.highlightText = highlightText;
   window.clearHighlights = clearHighlights;
+  window.getResearchRabbitVisibleText = getResearchRabbitVisibleText;
 }
