@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Persistent floating action button with Chat/Summarizer and semantic Search tools.",
   "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["http://localhost:8000/*"],
+  "host_permissions": ["https://*.ondigitalocean.app/*"],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

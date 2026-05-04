@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:8000/rank-chunks";
+const BACKEND_URL = "https://research-rabbit-app-m37s3.ondigitalocean.app/rank-chunks";
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type !== "RR_RANK_CHUNKS") return false;
