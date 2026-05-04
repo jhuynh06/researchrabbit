@@ -1,152 +1,36 @@
-/* ResearchRabbit Floating Button */
+/* ResearchRabbit search panel styles. FAB styles live in the Shadow DOM. */
 
-#rr-fab-container {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 2147483647;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* ── Shared button base ── */
-.rr-fab-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(58, 80, 157, 0.25);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    opacity 0.2s ease;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.rr-fab-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(58, 80, 157, 0.35);
-}
-
-.rr-fab-btn:active {
-  transform: scale(0.95);
-}
-
-/* ── Main toggle button ── */
-#rr-fab-main {
-  /* Closed: white background, dark-blue icon */
-  background: #ffffff;
-  width: 56px;
-  height: 56px;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 4px 16px rgba(58, 80, 157, 0.3);
-}
-
-/* Open: flip to dark-blue background, white icon */
-#rr-fab-main.rr-open {
-  background: #3a509d;
-}
-
-#rr-fab-main.rr-open svg {
-  fill: #ffffff;
-}
-
-#rr-fab-main svg {
-  transition: fill 0.2s ease;
-}
-
-/* ── Sub-buttons (hidden by default) ── */
-.rr-fab-sub {
-  background: #ffffff;
-  opacity: 0;
-  transform: translateY(12px) scale(0.85);
-  pointer-events: none;
-  transition:
-    opacity 0.22s ease,
-    transform 0.22s ease;
-}
-
-.rr-fab-sub.rr-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-/* Stagger the sub-button animations */
-#rr-fab-search.rr-visible {
-  transition-delay: 0.04s;
-}
-
-#rr-fab-chat.rr-visible {
-  transition-delay: 0.08s;
-}
-
-/* ── Tooltip labels ── */
-.rr-fab-btn::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  right: 64px;
-  background: rgba(30, 40, 80, 0.88);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-}
-
-.rr-fab-btn:hover::before {
-  opacity: 1;
-}
-
-/* ── Search window panel ── */
 #rr-search-panel {
   position: fixed;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) translateY(-8px) !important;
-  width: 400px;
+  top: 50%;
+  left: 50%;
+  width: min(400px, calc(100vw - 32px));
   max-height: calc(100vh - 48px);
-  z-index: 999999 !important;
+  z-index: 2147483647;
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  overflow: auto;
+  color: #1f2b5e;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #ffffff;
+  border: 1px solid #3a509d;
   border-radius: 24px;
   box-shadow: 0 24px 64px rgba(58, 80, 157, 0.2);
-  padding: 20px;
-  border: 1px solid #3a509d;
-  color: #1f2b5e;
-  font-family: inherit;
-  display: none !important;
-  flex-direction: column;
-  gap: 20px;
   opacity: 0;
   pointer-events: none;
+  transform: translate(-50%, -50%) translateY(-8px);
   transition:
     opacity 0.22s ease,
     transform 0.22s ease;
 }
 
 #rr-search-panel.rr-visible {
-  display: flex !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: translate(-50%, -50%) translateY(0) !important;
-}
-
-#rr-search-panel.rr-hidden {
-  display: none !important;
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) translateY(0);
 }
 
 .rr-search-panel-header {
@@ -164,73 +48,62 @@
 }
 
 .rr-search-panel-sparkle {
-  width: 24px;
-  height: 24px;
-  fill: #3a509d;
+  flex: 0 0 auto;
 }
 
 .rr-search-panel-title-section h2 {
   margin: 0;
-  font-size: 18px;
-  line-height: 1.2;
   color: #1f2b5e;
+  font-size: 18px;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .rr-search-panel-subtitle {
   margin: 0;
-  font-size: 12px;
   color: #5b6bbf;
+  font-size: 12px;
 }
 
-.rr-search-panel-header-right {
-  display: flex;
-  gap: 8px;
-}
-
-.rr-search-panel-minimize,
 .rr-search-panel-close {
+  display: grid;
   width: 32px;
   height: 32px;
+  padding: 0;
+  place-items: center;
+  color: #3a509d;
+  font-size: 18px;
+  line-height: 1;
+  background: #f0f2f9;
   border: none;
   border-radius: 8px;
-  background: #f0f2f9;
-  color: #3a509d;
-  font-size: 16px;
-  line-height: 1;
   cursor: pointer;
-  display: grid;
-  place-items: center;
-  padding: 0;
 }
 
-.rr-search-panel-minimize:hover,
 .rr-search-panel-close:hover {
   background: #e0e4f0;
 }
 
 .rr-search-panel-body {
   display: flex;
+  flex-direction: column;
   border: 1px solid #3a509d;
   border-radius: 10px;
-  flex-direction: column;
-  gap: 20px;
 }
 
 #rr-search-textarea {
   width: 100%;
-  box-sizing: border-box;
   min-height: 120px;
-  border: none;
-  border-bottom: 1px solid #e0e4f0;
-  border-radius: 0;
-  background: #ffffff;
+  box-sizing: border-box;
   padding: 16px;
-  font-size: 15px;
   color: #1f2b5e;
-  font-family: inherit;
+  font: inherit;
+  font-size: 15px;
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
   outline: none;
-  resize: none;
+  resize: vertical;
 }
 
 #rr-search-textarea::placeholder {
@@ -240,38 +113,42 @@
 .rr-search-panel-footer {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
   justify-content: space-between;
   gap: 12px;
 }
 
 .rr-search-char-count {
-  font-size: 12px;
-  color: #5b6bbf;
   flex: 1;
+  min-width: 0;
+  color: #5b6bbf;
+  font-size: 12px;
   white-space: nowrap;
 }
 
 .rr-search-buttons {
   display: flex;
-  gap: 8px;
   flex-shrink: 0;
+  gap: 8px;
 }
 
 .rr-search-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  min-width: 72px;
   height: 40px;
   padding: 8px 16px;
-  border-radius: 12px;
+  color: #3a509d;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(90, 103, 183, 0.2);
   background: #ffffff;
-  color: #3a509d;
+  border: 1px solid rgba(90, 103, 183, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .rr-search-btn:hover {
@@ -283,9 +160,14 @@
   transform: scale(0.98);
 }
 
+.rr-search-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .rr-search-btn-primary {
-  background: #3a509d;
   color: #ffffff;
+  background: #3a509d;
   border-color: #3a509d;
 }
 
@@ -294,29 +176,44 @@
   border-color: #2e3d7a;
 }
 
+.rr-search-empty {
+  padding: 14px 16px;
+  color: #4d5fae;
+  font-size: 14px;
+  background: #e8ecff;
+  border-radius: 16px;
+}
+
 .rr-search-results {
   display: grid;
   gap: 10px;
 }
 
-.rr-search-empty {
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: #e8ecff;
-  color: #4d5fae;
-  font-size: 14px;
-}
-
 .rr-search-result-item {
+  display: block;
+  width: 100%;
   padding: 14px 16px;
-  border-radius: 20px;
-  background: #f8f9ff;
-  border: 1px solid rgba(90, 103, 183, 0.1);
   color: #243055;
+  font: inherit;
   font-size: 14px;
   line-height: 1.5;
+  text-align: left;
+  background: #f8f9ff;
+  border: 1px solid rgba(90, 103, 183, 0.14);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.rr-search-result-item:hover,
+.rr-search-result-item.rr-active {
+  background: #edf1ff;
+  border-color: #5b6bbf;
 }
 
 .rr-search-result-item p {
   margin: 0;
+}
+
+.rr-search-result-item p + p {
+  margin-top: 6px;
 }
