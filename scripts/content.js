@@ -187,7 +187,7 @@
         </svg>
         <div class="rr-search-panel-title-section">
           <h2>Search by meaning</h2>
-          <p class="rr-search-panel-subtitle">Paste a paragraph - we highlight what's relevant</p>
+          <p class="rr-search-panel-subtitle">Paste a paragraph &middot; we highlight what's relevant</p>
         </div>
       </div>
       <div class="rr-search-panel-header-right">
@@ -196,18 +196,66 @@
     </div>
     <div class="rr-search-panel-body">
       <textarea id="rr-search-textarea" placeholder="Paste your paragraph here..."></textarea>
-    </div>
-    <div class="rr-search-panel-footer">
-      <div id="rr-search-char-count" class="rr-search-char-count">0 CHARS - semantic</div>
-      <div class="rr-search-buttons">
-        <button id="rr-search-clear" type="button" class="rr-search-btn">Clear</button>
-        <button id="rr-search-search" type="button" class="rr-search-btn rr-search-btn-primary">Search</button>
+      <div class="rr-search-panel-footer">
+        <div id="rr-search-char-count" class="rr-search-char-count">0 CHARS &middot; semantic</div>
+        <div class="rr-search-buttons">
+          <button id="rr-search-clear" type="button" class="rr-search-btn">
+            <span class="rr-search-btn-icon" aria-hidden="true">&times;</span>
+            <span>Clear</span>
+          </button>
+          <button id="rr-search-search" type="button" class="rr-search-btn rr-search-btn-primary">
+            <svg class="rr-search-btn-icon" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="4.4" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M10.3 10.3 13.4 13.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>Search</span>
+          </button>
+        </div>
       </div>
     </div>
     <div id="rr-search-status" class="rr-search-empty">Enter a query above to search page content.</div>
     <div id="rr-search-results" class="rr-search-results"></div>
   `;
   document.body.appendChild(searchPanel);
+
+  const qaPanel = document.createElement("div");
+  qaPanel.id = "rr-qa-panel";
+  qaPanel.className = "rr-search-panel rr-qa-panel";
+  qaPanel.innerHTML = `
+    <div class="rr-search-panel-header rr-qa-panel-header">
+      <div class="rr-search-panel-header-left">
+        <span class="rr-qa-header-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <path d="M4.6 3.7h6.8c.9 0 1.6.7 1.6 1.6v3.8c0 .9-.7 1.6-1.6 1.6H8.3l-2.5 1.8v-1.8H4.6c-.9 0-1.6-.7-1.6-1.6V5.3c0-.9.7-1.6 1.6-1.6Z" stroke="#6278b0" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M7.8 5.35 8.1 6.1c.16.42.48.74.9.9l.75.3-.75.3c-.42.16-.74.48-.9.9l-.3.75-.3-.75a1.62 1.62 0 0 0-.9-.9l-.75-.3.75-.3c.42-.16.74-.48.9-.9l.3-.75Z" fill="#6278b0"/>
+          </svg>
+        </span>
+        <div class="rr-search-panel-title-section">
+          <h2>Ask about this paper</h2>
+        </div>
+      </div>
+      <div class="rr-search-panel-header-right">
+        <button id="rr-qa-close" type="button" class="rr-search-panel-close" aria-label="Close">&times;</button>
+      </div>
+    </div>
+    <div class="rr-qa-chat-placeholder" aria-label="AI chat messages" aria-live="polite"></div>
+    <div class="rr-qa-input-panel">
+      <label class="rr-qa-input-shell" for="rr-qa-input">
+        <svg class="rr-qa-input-icon" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 2l.42 1.28a4.1 4.1 0 0 0 2.6 2.6L12.3 6.3l-1.28.42a4.1 4.1 0 0 0-2.6 2.6L8 10.6l-.42-1.28a4.1 4.1 0 0 0-2.6-2.6L3.7 6.3l1.28-.42a4.1 4.1 0 0 0 2.6-2.6L8 2Z" fill="#6278b0"/>
+          <path d="M12.2 9.6l.2.62c.12.38.42.68.8.8l.62.2-.62.2a1.35 1.35 0 0 0-.8.8l-.2.62-.2-.62a1.35 1.35 0 0 0-.8-.8l-.62-.2.62-.2c.38-.12.68-.42.8-.8l.2-.62Z" fill="#6278b0"/>
+        </svg>
+        <input id="rr-qa-input" type="text" placeholder="Type a question..." autocomplete="off" />
+      </label>
+      <button id="rr-qa-send" type="button" class="rr-qa-send-btn" aria-label="Send message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2.2 8.55 13.1 3.2c.42-.2.86.2.7.64l-3.48 9.9c-.16.45-.78.49-.99.06L7.7 10.45 4.32 9.5c-.48-.14-.57-.73-.12-.95Z" fill="#ffffff"/>
+          <path d="M7.72 10.42 9.92 7.2" stroke="#dfe6fb" stroke-width="1.1" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  `;
+  document.body.appendChild(qaPanel);
 
   const searchTextarea = searchPanel.querySelector("#rr-search-textarea");
   const searchResults = searchPanel.querySelector("#rr-search-results");
@@ -217,6 +265,11 @@
   const searchActionBtn = searchPanel.querySelector("#rr-search-search");
   const charCount = searchPanel.querySelector("#rr-search-char-count");
   const searchPanelHeader = searchPanel.querySelector(".rr-search-panel-header");
+  const qaMessages = qaPanel.querySelector(".rr-qa-chat-placeholder");
+  const qaInput = qaPanel.querySelector("#rr-qa-input");
+  const qaSend = qaPanel.querySelector("#rr-qa-send");
+  const qaClose = qaPanel.querySelector("#rr-qa-close");
+  const qaPanelHeader = qaPanel.querySelector(".rr-search-panel-header");
 
   let isOpen = false;
   let isSearching = false;
@@ -239,6 +292,7 @@
 
   function openSearchPanel() {
     closeMenu();
+    closeQaPanel();
     searchPanel.classList.add("rr-visible");
     setTimeout(() => searchTextarea.focus(), 100);
   }
@@ -246,6 +300,62 @@
   function closeSearchPanel() {
     searchPanel.classList.remove("rr-visible");
   }
+
+  function openQaPanel() {
+    closeMenu();
+    closeSearchPanel();
+    qaPanel.classList.add("rr-visible");
+    setTimeout(() => qaInput.focus(), 100);
+  }
+
+  function closeQaPanel() {
+    qaPanel.classList.remove("rr-visible");
+  }
+
+  function createQaMessage(role, text) {
+    const row = document.createElement("div");
+    row.className = `rr-qa-message rr-qa-message-${role}`;
+
+    if (role === "ai") {
+      const avatar = document.createElement("div");
+      avatar.className = "rr-qa-avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1.7l.55 1.55a3.8 3.8 0 0 0 2.3 2.3L12.4 6.1l-1.55.55a3.8 3.8 0 0 0-2.3 2.3L8 10.5l-.55-1.55a3.8 3.8 0 0 0-2.3-2.3L3.6 6.1l1.55-.55a3.8 3.8 0 0 0 2.3-2.3L8 1.7Z" stroke="#6278b0" stroke-width="1.2" stroke-linejoin="round"/>
+          <path d="M12.2 9.7l.28.78c.17.47.54.84 1.02 1.02l.78.28-.78.28c-.48.18-.85.55-1.02 1.02l-.28.78-.28-.78a1.8 1.8 0 0 0-1.02-1.02l-.78-.28.78-.28c.48-.18.85-.55 1.02-1.02l.28-.78Z" stroke="#6278b0" stroke-width="1" stroke-linejoin="round"/>
+        </svg>`;
+      row.appendChild(avatar);
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "rr-qa-bubble";
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    return row;
+  }
+
+  function appendQaMessage(role, text) {
+    qaMessages.appendChild(createQaMessage(role, text));
+    qaMessages.scrollTop = qaMessages.scrollHeight;
+  }
+
+  function sendQaMessage() {
+    const message = qaInput.value.trim();
+    if (!message) {
+      qaInput.focus();
+      return;
+    }
+
+    appendQaMessage("user", message);
+    qaInput.value = "";
+    qaInput.focus();
+  }
+
+  appendQaMessage(
+    "ai",
+    "Hi - I've read the paper. Ask me anything about the methods, results, or figures, and I'll point you to the exact passage.",
+  );
 
   function resetSearchPanel() {
     window.clearHighlights();
@@ -257,7 +367,7 @@
   }
 
   function updateCharCount() {
-    charCount.textContent = `${searchTextarea.value.length} CHARS - semantic`;
+    charCount.textContent = `${searchTextarea.value.length} CHARS \u00B7 semantic`;
   }
 
   function setStatus(message) {
@@ -267,7 +377,8 @@
   function setSearching(nextIsSearching) {
     isSearching = nextIsSearching;
     searchActionBtn.disabled = isSearching;
-    searchActionBtn.textContent = isSearching ? "Searching..." : "Search";
+    const label = searchActionBtn.querySelector("span:last-child");
+    if (label) label.textContent = isSearching ? "Searching..." : "Search";
   }
 
   function renderChunks(chunks) {
@@ -278,10 +389,10 @@
       item.type = "button";
       item.className = "rr-search-result-item";
       item.dataset.chunkText = chunk.text || "";
+      const snippet = truncateText(chunk.text || chunk.explanation || "", 110) || "Relevant page section";
       item.innerHTML = `
-        <p><strong>#${chunk.rank} - score ${Number(chunk.score || 0).toFixed(4)}</strong></p>
-        <p>${escapeHtml(chunk.explanation || "Relevant page section")}</p>
-        <p>${escapeHtml(truncateText(chunk.text || "", 220))}</p>
+        <span class="rr-search-result-marker" aria-hidden="true"></span>
+        <span class="rr-search-result-copy">${escapeHtml(snippet)}</span>
       `;
       item.addEventListener("click", () => {
         searchPanel.querySelectorAll(".rr-search-result-item").forEach((node) => {
@@ -316,7 +427,7 @@
         let parent = node.parentNode;
         while (parent && parent !== document.body) {
           if (SKIP_TAGS.has(parent.nodeName)) return NodeFilter.FILTER_REJECT;
-          if (parent.id === "rr-search-panel" || parent.id === "rr-fab-container") {
+          if (parent.id === "rr-search-panel" || parent.id === "rr-qa-panel" || parent.id === "rr-fab-container") {
             return NodeFilter.FILTER_REJECT;
           }
           if (parent.classList?.contains(HIGHLIGHT_CLASS)) return NodeFilter.FILTER_REJECT;
@@ -369,12 +480,8 @@
         return;
       }
 
-      const matchCount = highlightChunk(chunks[0].text || "");
-      setStatus(
-        matchCount > 0
-          ? `Found ${chunks.length} relevant chunks. Highlighted ${matchCount} match${matchCount === 1 ? "" : "es"}.`
-          : `Found ${chunks.length} relevant chunks. Select a result to retry highlighting.`,
-      );
+      highlightChunk(chunks[0].text || "");
+      setStatus(`${chunks.length} relevant passage${chunks.length === 1 ? "" : "s"}`);
       searchResults.querySelector(".rr-search-result-item")?.classList.add("rr-active");
     } catch (error) {
       setStatus(error.message || "Semantic search failed.");
@@ -440,7 +547,7 @@
   chatBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("[ResearchRabbit] Q&A clicked");
+    qaPanel.classList.contains("rr-visible") ? closeQaPanel() : openQaPanel();
   });
 
   searchBtn.addEventListener("click", (event) => {
@@ -451,6 +558,8 @@
 
   searchTextarea.addEventListener("input", updateCharCount);
   searchClose.addEventListener("click", closeSearchPanel);
+  qaClose.addEventListener("click", closeQaPanel);
+  qaSend.addEventListener("click", sendQaMessage);
   clearBtn.addEventListener("click", resetSearchPanel);
   searchActionBtn.addEventListener("click", runSemanticSearch);
 
@@ -460,50 +569,70 @@
     }
   });
 
+  qaInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendQaMessage();
+    }
+  });
+
   let isDragging = false;
   let initialMouseX = 0;
   let initialMouseY = 0;
   let initialPanelTop = 0;
   let initialPanelLeft = 0;
 
-  searchPanelHeader.addEventListener("mousedown", (event) => {
+  function startPanelDrag(event, panel) {
     if (event.target.closest("button")) return;
     event.preventDefault();
     isDragging = true;
     initialMouseX = event.clientX;
     initialMouseY = event.clientY;
 
-    const rect = searchPanel.getBoundingClientRect();
+    const rect = panel.getBoundingClientRect();
     initialPanelTop = rect.top;
     initialPanelLeft = rect.left;
-    searchPanel.style.top = `${initialPanelTop}px`;
-    searchPanel.style.left = `${initialPanelLeft}px`;
-    searchPanel.style.transform = "none";
+    panel.style.top = `${initialPanelTop}px`;
+    panel.style.left = `${initialPanelLeft}px`;
+    panel.style.transform = "none";
+    draggedPanel = panel;
+  }
+
+  let draggedPanel = null;
+
+  searchPanelHeader.addEventListener("mousedown", (event) => {
+    startPanelDrag(event, searchPanel);
+  });
+
+  qaPanelHeader.addEventListener("mousedown", (event) => {
+    startPanelDrag(event, qaPanel);
   });
 
   document.addEventListener("mousemove", (event) => {
-    if (!isDragging) return;
+    if (!isDragging || !draggedPanel) return;
 
-    const panelRect = searchPanel.getBoundingClientRect();
+    const panelRect = draggedPanel.getBoundingClientRect();
     const maxLeft = Math.max(0, window.innerWidth - panelRect.width);
     const maxTop = Math.max(0, window.innerHeight - panelRect.height);
     const nextLeft = initialPanelLeft + event.clientX - initialMouseX;
     const nextTop = initialPanelTop + event.clientY - initialMouseY;
 
-    searchPanel.style.top = `${Math.min(Math.max(0, nextTop), maxTop)}px`;
-    searchPanel.style.left = `${Math.min(Math.max(0, nextLeft), maxLeft)}px`;
+    draggedPanel.style.top = `${Math.min(Math.max(0, nextTop), maxTop)}px`;
+    draggedPanel.style.left = `${Math.min(Math.max(0, nextLeft), maxLeft)}px`;
   });
 
   document.addEventListener("mouseup", () => {
     isDragging = false;
+    draggedPanel = null;
   });
 
   document.addEventListener("click", (event) => {
     const path = event.composedPath();
     const isInsideContainer = path.includes(container);
     const isInsideSearchPanel = path.includes(searchPanel);
+    const isInsideQaPanel = path.includes(qaPanel);
 
-    if (isOpen && !isInsideContainer && !isInsideSearchPanel) {
+    if (isOpen && !isInsideContainer && !isInsideSearchPanel && !isInsideQaPanel) {
       closeMenu();
     }
   });
@@ -511,6 +640,7 @@
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     if (searchPanel.classList.contains("rr-visible")) closeSearchPanel();
+    if (qaPanel.classList.contains("rr-visible")) closeQaPanel();
     if (isOpen) closeMenu();
   });
 
@@ -544,7 +674,7 @@
           let parent = node.parentNode;
           while (parent && parent !== root) {
             if (SKIP_TAGS.has(parent.nodeName)) return NodeFilter.FILTER_REJECT;
-            if (parent.id === "rr-search-panel" || parent.id === "rr-fab-container") {
+            if (parent.id === "rr-search-panel" || parent.id === "rr-qa-panel" || parent.id === "rr-fab-container") {
               return NodeFilter.FILTER_REJECT;
             }
             if (parent.classList?.contains(HIGHLIGHT_CLASS)) return NodeFilter.FILTER_REJECT;
