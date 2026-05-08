@@ -418,6 +418,18 @@
   box-shadow: 0 2px 5px rgba(213, 223, 250, 0.55);
 }
 
+.rr-qa-message-ai .rr-qa-bubble p { margin: 0 0 4px; }
+.rr-qa-message-ai .rr-qa-bubble p:last-child { margin-bottom: 0; }
+.rr-qa-message-ai .rr-qa-bubble h1,
+.rr-qa-message-ai .rr-qa-bubble h2,
+.rr-qa-message-ai .rr-qa-bubble h3,
+.rr-qa-message-ai .rr-qa-bubble h4 { margin: 6px 0 2px; font-size: 12px; font-weight: 600; }
+.rr-qa-message-ai .rr-qa-bubble ul { margin: 2px 0; padding-left: 16px; }
+.rr-qa-message-ai .rr-qa-bubble li { margin-bottom: 2px; }
+.rr-qa-message-ai .rr-qa-bubble code { background: #eef2fa; padding: 1px 4px; border-radius: 3px; font-size: 10.5px; }
+.rr-qa-message-ai .rr-qa-bubble strong { font-weight: 600; }
+.rr-qa-message-ai .rr-qa-bubble a { color: #4a6ab5; text-decoration: underline; }
+
 .rr-qa-message-loading .rr-qa-bubble {
   color: rgba(98, 120, 176, 0.8);
   font-style: italic;

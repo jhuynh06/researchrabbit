@@ -23,6 +23,45 @@
     "EMBED",
   ]);
 
+  /** Minimal markdown → HTML (bold, italic, code, links, lists, headings). */
+  function renderMarkdown(md) {
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const lines = md.split("\n");
+    let html = "";
+    let inList = false;
+    for (let line of lines) {
+      let stripped = line;
+      // headings
+      const hMatch = stripped.match(/^(#{1,4})\s+(.*)/);
+      if (hMatch) {
+        if (inList) { html += "</ul>"; inList = false; }
+        const lvl = hMatch[1].length;
+        html += `<h${lvl}>${esc(hMatch[2])}</h${lvl}>`;
+        continue;
+      }
+      // unordered list
+      if (/^\s*[-*]\s+/.test(stripped)) {
+        if (!inList) { html += "<ul>"; inList = true; }
+        html += `<li>${inlineMarkdown(esc(stripped.replace(/^\s*[-*]\s+/, "")))}</li>`;
+        continue;
+      }
+      if (inList) { html += "</ul>"; inList = false; }
+      // empty line → paragraph break
+      if (!stripped.trim()) { html += "<br>"; continue; }
+      html += `<p>${inlineMarkdown(esc(stripped))}</p>`;
+    }
+    if (inList) html += "</ul>";
+    return html;
+  }
+
+  function inlineMarkdown(s) {
+    return s
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>")
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  }
+
   if (!window.ResearchRabbitHighlighter) {
     installHighlighter();
   }
@@ -340,7 +379,11 @@
 
     const bubble = document.createElement("div");
     bubble.className = "rr-qa-bubble";
-    bubble.textContent = text;
+    if (role === "ai") {
+      bubble.innerHTML = renderMarkdown(text);
+    } else {
+      bubble.textContent = text;
+    }
 
     if (role === "ai" && sources && sources.length > 0) {
       const citationsDiv = document.createElement("div");
