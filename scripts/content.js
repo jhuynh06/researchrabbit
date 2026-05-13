@@ -392,9 +392,11 @@
         const link = document.createElement("button");
         link.type = "button";
         link.className = "rr-qa-citation-link";
-        link.textContent = `[${i + 1}] ${truncateText(source.text, 60)}`;
+        link.textContent = `[${i + 1}] ${truncateText(source.text, 280)}`;
         link.title = "Jump to passage on page";
-        link.addEventListener("click", () => highlightChunk(source.text));
+        link.addEventListener("click", () =>
+          highlightChunk(source.text, { prefix: source.prefix, suffix: source.suffix }),
+        );
         citationsDiv.appendChild(link);
       });
       bubble.appendChild(citationsDiv);
@@ -672,7 +674,11 @@
     });
   }
 
-  function highlightChunk(text) {
+  function highlightChunk(text, anchors) {
+    if (anchors && anchors.prefix && window.highlightRange) {
+      const count = window.highlightRange(anchors.prefix, anchors.suffix || anchors.prefix);
+      if (count > 0) return count;
+    }
     const candidates = getHighlightCandidates(text);
     for (const candidate of candidates) {
       const count = window.highlightText(candidate);
@@ -976,11 +982,65 @@
       return count;
     }
 
+    function highlightRange(prefix, suffix) {
+      if (!prefix || !document.body) return 0;
+      const start = String(prefix).replace(/\s+/g, " ").trim().toLowerCase();
+      const end = String(suffix || prefix).replace(/\s+/g, " ").trim().toLowerCase();
+      if (!start) return 0;
+
+      ensureHighlightStyle();
+      clearHighlights();
+
+      const nodes = collectTextNodes(document.body);
+      const { haystack, map } = buildIndex(nodes);
+      if (!haystack) return 0;
+
+      const SPAN_LIMIT = 12000;
+      let searchFrom = 0;
+      while (searchFrom < haystack.length) {
+        const startMatchIndex = haystack.indexOf(start, searchFrom);
+        if (startMatchIndex === -1) return 0;
+
+        let endMatchStart;
+        if (start === end) {
+          endMatchStart = startMatchIndex;
+        } else {
+          endMatchStart = haystack.indexOf(end, startMatchIndex + start.length);
+          if (endMatchStart === -1 || endMatchStart - startMatchIndex > SPAN_LIMIT) {
+            searchFrom = startMatchIndex + 1;
+            continue;
+          }
+        }
+
+        const startMap = map[startMatchIndex];
+        const endMap = map[endMatchStart + end.length - 1];
+        if (startMap && endMap) {
+          try {
+            const range = document.createRange();
+            range.setStart(startMap.node, startMap.offset);
+            range.setEnd(endMap.node, endMap.offset + 1);
+            if (wrapRange(range)) {
+              document.querySelector(`.${HIGHLIGHT_CLASS}`)?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+              return 1;
+            }
+          } catch {
+            // Try next prefix occurrence below.
+          }
+        }
+        searchFrom = startMatchIndex + 1;
+      }
+      return 0;
+    }
+
     function getResearchRabbitVisibleText() {
       return document.body?.innerText || "";
     }
 
     window.highlightText = highlightText;
+    window.highlightRange = highlightRange;
     window.clearHighlights = clearHighlights;
     window.getResearchRabbitVisibleText = getResearchRabbitVisibleText;
     window.ResearchRabbitHighlighter = true;
