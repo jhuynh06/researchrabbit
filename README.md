@@ -1,6 +1,6 @@
-# ResearchRabbit
+# FroggyFind
 
-ResearchRabbit is a Chrome extension that finds relevant chunks from HTML research webpages using semantic search.
+FroggyFind is a Chrome extension that finds relevant chunks from HTML research webpages using semantic search.
 
 ## How It Works
 
